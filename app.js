@@ -7,7 +7,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.send('teeeest');
+  res.render('index');
 });
 
 const port = process.env.PORT || 3000;
