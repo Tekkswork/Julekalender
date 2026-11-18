@@ -158,3 +158,8 @@ const questions = [
     correct_answer: "Glade jul"
   }
 ];
+module.exports = questions;
+
+// lage spørsmålene tilgjengelige for app.js
+
+

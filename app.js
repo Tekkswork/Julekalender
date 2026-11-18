@@ -1,6 +1,7 @@
 require('dotenv').config();
 const mongoose = require("mongoose");
 const express = require('express');
+const questions = require('./seed');
 const app = express();
 
 const User = require('./models/Bruker')
@@ -19,8 +20,21 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 
+// remember: henter luke nummeret fra nettaddressen og sender det til luke.ejs.
+//  så bruker man nummeret til å finne riktig spørsmål, slik at luke3 viser spørsmål 3-
+//  basically connecting seed.js. 
 app.get('/luke/:dag', (req, res) => {
-  res.render('luke');
+  const dag = Number(req.params.dag);
+  const sporsmal = questions.find(q => q.id === dag);
+
+  if (!sporsmal) {
+    return res.status(404).send('Luka finnes ikke');
+  }
+
+  res.render('luke', {
+    dag: dag,
+    question: sporsmal.question
+  });
 });
 
 
