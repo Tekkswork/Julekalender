@@ -19,6 +19,10 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 
+app.get('/luke/:dag', (req, res) => {
+  res.render('luke');
+});
+
 
 app.post('/login', async (req, res) => {
     const {name, surname, email} = req.body;
