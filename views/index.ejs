@@ -1,6 +1,11 @@
 <%- include('partials/header') %>
 
 <h1>Julekalender</h1>
+
+<% if (navn) { %>
+  <p>Hei <%= navn %>!</p>
+<% } %>
+
 <a class="logg-ut" href="/logout">Logg ut</a>
 
 <div class="kalender">

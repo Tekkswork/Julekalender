@@ -4,6 +4,7 @@ const express = require('express');
 const Svar = require('./models/svar');
 const Luke = require('./models/luke');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const app = express();
 
 const User = require('./models/Bruker')
@@ -11,11 +12,22 @@ const User = require('./models/Bruker')
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 
 mongoose.connect("mongodb://localhost:27017/JULEKALENDER");
+
+// prøver å få Hei "navn" melding
+
 app.get('/', (req, res) => {
-  res.render('index');
+  const token = req.cookies.jwt;
+
+  if (!token) {
+    return res.render('index', { navn: null });
+  }
+
+  const bruker = jwt.verify(token, process.env.SECRET_JWT);
+  res.render('index', { navn: bruker.fornavn });
 });
 
 app.get('/login', (req, res) => {
@@ -80,7 +92,7 @@ app.post('/login', async (req, res) => {
         const user = await User.insertOne({fornavn: name, etternavn: surname, epost: email});
         console.log("user", user)
 
-                const token = jwt.sign({userId:user._id, fornavn: fornavn}, process.env.SECRET_JWT)
+                const token = jwt.sign({userId:user._id, fornavn: name}, process.env.SECRET_JWT)
         console.log("token", token);
 
         res.cookie("jwt", token);
