@@ -26,6 +26,15 @@ app.get('/login', (req, res) => {
 //  basically connecting seed.js. 
 app.get('/luke/:dag', async (req, res) => {
   const dag = Number(req.params.dag);
+
+//   ikke åpne luker
+
+  const today = new Date();
+
+if (today.getMonth() !== 11 || today.getDate() < dag) {
+  return res.status(403).send('Denne luken er ikke åpen enda');
+}
+
   const sporsmal = await Luke.findOne({ id: dag });
 
   if (!sporsmal) {
@@ -44,6 +53,13 @@ app.get('/luke/:dag', async (req, res) => {
 
 app.post('/luke/:dag', async (req, res) => {
   const dag = Number(req.params.dag);
+
+  const today = new Date();
+
+if (today.getMonth() !== 11 || today.getDate() < dag) {
+  return res.status(403).send('Denne luken er ikke åpen enda');
+}
+  
   const svar = req.body.answer;
 
   await Svar.create({ dag: dag, svar: svar});
