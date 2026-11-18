@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const express = require('express');
 const Svar = require('./models/svar');
 const Luke = require('./models/luke');
+const jwt = require('jsonwebtoken');
 const app = express();
 
 const User = require('./models/Bruker')
@@ -29,7 +30,7 @@ app.get('/luke/:dag', async (req, res) => {
 
 //   ikke åpne luker
 
-  const today = new Date();
+  const today = new Date('2026-12-24');
 
 if (today.getMonth() !== 11 || today.getDate() < dag) {
   return res.status(403).send('Denne luken er ikke åpen enda');
@@ -54,7 +55,7 @@ if (today.getMonth() !== 11 || today.getDate() < dag) {
 app.post('/luke/:dag', async (req, res) => {
   const dag = Number(req.params.dag);
 
-  const today = new Date();
+  const today = new Date('2026-12-24');
 
 if (today.getMonth() !== 11 || today.getDate() < dag) {
   return res.status(403).send('Denne luken er ikke åpen enda');
