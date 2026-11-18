@@ -14,7 +14,8 @@ body::before {
     inset: -6px;
     z-index: -1;
     background:
-      linear-gradient(rgba(20, 16, 24, 0.28), rgba(20, 16, 24, 0.28)),
+      linear-gradient(rgba(120, 25, 30, 0.10), rgba(120, 25, 30, 0.10)),
+      linear-gradient(rgba(20, 16, 24, 0.36), rgba(20, 16, 24, 0.36)),
       linear-gradient(
         to bottom,
         transparent 40%,
@@ -26,6 +27,16 @@ body::before {
         rgba(95, 11, 11, 0.5) 100%
       ),
       url('/img/ROM.jpeg') center / cover no-repeat;
+}
+
+body > main,
+body > footer {
+  position: relative;
+  z-index: 1;
+}
+
+.logg-ut {
+  z-index: 1;
 }
 
 h1 {
@@ -124,5 +135,126 @@ border: 2px solid #f5d68a;
     box-shadow:
       0 0 22px rgba(245, 214, 138, 0.9),
       inset 0 0 12px rgba(245, 214, 138, 0.35);
+  }
+}
+
+
+/* LOGIN- eller lock in? */
+
+.login-div {
+    box-sizing: border-box;
+    width: 400px;
+    margin: 20px auto 0;
+    padding: 60px 30px 30px;
+    background: rgba(43, 12, 12, 0.94);
+    border: 1px solid #f5d68a;
+    border-radius: 20px;
+    height: 560px;
+    box-shadow: 0 0 15px rgba(245, 214, 138, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    font-size: 20px;
+    color: #fff;
+}
+
+.login-div p,
+.login-div label {
+    font-size: 18px;
+    color: #e3e2e2;
+    font-weight: 400;
+}
+
+.login-div .loginP {
+    text-align: center;
+    margin: 0;
+    font-size: 17px;
+}
+
+.login-div input {
+    font-size: 18px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(171, 165, 165, 0.85);
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.login-div .login-submit {
+    font-size: 18px;
+    font-family: inherit;
+    font-weight: 600;
+    color: #000;
+    background: linear-gradient(to right, #9b292c 0%, #c94b3d 15%, #f5d68a 100%);
+    border: none;
+    border-radius: 24px;
+    padding: 15px 12px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+/* smalere tekst knapp */
+.login-div .login-submit,
+.login-div .admin-login {
+    font-size: 17px;
+}
+
+.login-div .admin-login {
+    font-size: 17px;
+    color: #f5d68a;
+    background: transparent;
+    border: none;
+    padding: 6px;
+    text-shadow: none;
+    box-shadow: none;
+    cursor: pointer;
+    margin-top: -3px;
+}
+
+.login-div h1 {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    align-self: center;
+    transform: none;
+    font-size: 55px;
+    gap: 10px;
+    transform: translateY(-6px);
+    
+}
+
+/* bare h1 og p tag oppover */
+.login-div h1,
+.login-div .loginP {
+    transform: translateY(-23px);
+}
+
+.footer-login {
+    margin-top: 20px;
+}
+
+/* snø og transparent effekt */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.35) 50%, transparent 100%),
+    radial-gradient(2px 2px at 100px 80px, rgba(255, 255, 255, 0.25) 50%, transparent 100%),
+    radial-gradient(3px 3px at 160px 140px, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  background-size: 200px 200px;
+  animation: snofall 12s linear infinite;
+}
+
+@keyframes snofall {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 0 200px;
   }
 }

@@ -1,17 +1,23 @@
 <%- include('partials/header') %>
 
-<div class="login-div">
+<form class="login-div" action="/login" method="POST">
+
+<h1>Julekalender</h1>
+<p class="loginP">Logg inn for å åpne dagens luke</p>
+
 <label for="name">Navn</label>
 <input id="name" name="name" type="text">
 
-<label for="email">afk E-post</label>
+<label for="surname">Etternavn</label>
+<input id="surname" name="surname" type="text">
+
+
+<label for="email">Skole E-post</label>
 <input id="email" name="email" type="email">
 
-<label for="klasse">Klasse</label>
-<input id="klasse" name="klasse" type="text">
+<button class="login-submit" type="submit">Logg inn</button>
+<button class="admin-login" type="submit">Logg inn som admin</button>
 
-<button type="submit">Logg inn</button>
+</form>
 
-</div>
-
-<%- include('partials/footer') %>
+<%- include('partials/footer', { footerClass: 'footer footer-login' }) %>
