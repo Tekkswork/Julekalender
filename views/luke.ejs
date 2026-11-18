@@ -3,6 +3,29 @@
 <div class="luke-boks">
   <h1>Luke <%= dag %></h1>
   <p><%= question %></p>
+
+  <!-- Again, som jeg har skjønt- options viser jo svaralternativer og radio er sånn at man
+   bare kan velge 1 svar -->
+
+  <% if (options) { %>
+  <% options.forEach(option => { %>
+    <p>
+      <label>
+        <input type="radio" name="answer" value="<%= option %>">
+        <%= option %>
+      </label>
+    </p>
+  <% }) %>
+<% } %>
+
 </div>
+
+
+
+
+
+
+
+
 
 <%- include('partials/footer', { footerClass: 'footer' }) %>

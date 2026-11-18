@@ -33,9 +33,13 @@ app.get('/luke/:dag', (req, res) => {
 
   res.render('luke', {
     dag: dag,
-    question: sporsmal.question
+    question: sporsmal.question,
+    options: sporsmal.options
   });
 });
+
+// ^ som jeg har skjønt- options sender svaralternativene fra seed til luke, sånn at det
+// vises på siden. 
 
 
 app.post('/login', async (req, res) => {
