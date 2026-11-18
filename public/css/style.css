@@ -30,15 +30,38 @@ body::before {
 
 h1 {
   font-family: 'Cormorant Garamond', serif;
-  color: #f5d68a;
+  color: #eac977;
   text-align: center;
   text-shadow: 0 0 20px rgba(245, 214, 138, 0.6);
-  font-size: 40px;
-  margin-bottom: 0;
+  font-size: 55px;
+  transform: translateY(-10px);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1.5em;
+  line-height: 1;
+  background: radial-gradient(
+  ellipse,
+  rgba(28, 36, 51, 0.15) 0%,
+  rgba(28, 36, 51, 0.0) 55%,
+  transparent 100%);
+  border-radius: 12px;
+  
+
+}
+
+.logg-ut {
+    position: fixed;
+    top: 20px;
+    right: 60px;
+    color: #f5d68a;
+    text-decoration: none;
+    font-size: 18px;
+    text-shadow: 0 0 4px #f5d68a, 0 0 12px rgba(245, 214, 138, 0.6), 0 0 24px rgba(245, 214, 138, 0.4);
 }
 
 .footer {
-    margin-top: 23px;
+    margin-top: 15px;
   text-align: center;
   color: #f6efe6;
   font-size: 15px;
@@ -50,34 +73,33 @@ h1 {
 
 .kalender {
   display: grid;
-  grid-template-columns: repeat(6, 100px);
+  grid-template-columns: repeat(6, 115px);
   gap: 15px;
   justify-content: center;
-  margin: 60px auto 0;
   margin-bottom: 0px;
+  margin-top: -30px;
 }
 
 .kalender a {
-  height: 100px;
+  height: 108px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 18%;
+  border-radius: 10%;
 
- background: linear-gradient(145deg, #afc2da, #86a9d3);
-color: #1c2433;
+ background:rgba(156, 32, 40, 0.5);
+color: #ede1e1;
 border: 2px solid #f5d68a;
 
   font-family: "Playfair Display", serif;
   font-size: 2.2rem;
   font-weight: 700;
   text-decoration: none;
-
-  
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.30);
 
   box-shadow:
-    0 0 15px rgba(228, 203, 139, 0.4),
-    inset 0 0 10px rgba(218, 194, 132, 0.2);
+    0 0 12px rgba(245, 214, 138, 0.45),
+    inset 0 0 8px rgba(245, 214, 138, 0.2);
 
   animation: glow 7s ease-in-out infinite;
   transition: transform 0.3s, box-shadow 0.3s;
@@ -86,15 +108,21 @@ border: 2px solid #f5d68a;
 .kalender a:hover,
 .kalender a:focus {
   transform: translateY(-6px) scale(1.05);
-  box-shadow: 0 0 18px rgba(245, 214, 138, 0.55);
+  box-shadow:
+    0 0 18px rgba(241, 208, 123, 0.7),
+    inset 0 0 10px rgba(245, 214, 138, 0.3);
 }
 
 @keyframes glow {
   0%, 100% {
-    box-shadow: 0 0 5px rgba(245, 214, 138, 0.25);
+    box-shadow:
+      0 0 6px rgba(245, 214, 138, 0.2),
+      inset 0 0 4px rgba(245, 214, 138, 0.1);
   }
 
   50% {
-    box-shadow: 0 0 12px rgba(245, 214, 138, 0.45);
+    box-shadow:
+      0 0 22px rgba(245, 214, 138, 0.9),
+      inset 0 0 12px rgba(245, 214, 138, 0.35);
   }
 }
