@@ -2,6 +2,7 @@ require('dotenv').config();
 const mongoose = require("mongoose");
 const express = require('express');
 const questions = require('./seed');
+const Svar = require('./models/svar');
 const app = express();
 
 const User = require('./models/Bruker')
@@ -11,7 +12,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 
-mongoose.connect("mongodb://localhost:27017/julekalender");
+mongoose.connect("mongodb://localhost:27017/JULEKALENDER");
 app.get('/', (req, res) => {
   res.render('index');
 });
@@ -40,6 +41,15 @@ app.get('/luke/:dag', (req, res) => {
 
 // ^ som jeg har skjønt- options sender svaralternativene fra seed til luke, sånn at det
 // vises på siden. 
+
+app.post('/luke/:dag', async (req, res) => {
+  const dag = Number(req.params.dag);
+  const svar = req.body.answer;
+
+  await Svar.create({ dag: dag, svar: svar});
+
+  res.send('Takk for svaret!');
+});
 
 
 app.post('/login', async (req, res) => {
