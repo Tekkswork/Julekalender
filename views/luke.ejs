@@ -7,25 +7,21 @@
   <!-- Again, som jeg har skjønt- options viser jo svaralternativer og radio er sånn at man
    bare kan velge 1 svar -->
 
+   <form action="/luke/<%= dag %>" method="POST">
   <% if (options) { %>
   <% options.forEach(option => { %>
-    <p>
       <label>
         <input type="radio" name="answer" value="<%= option %>">
         <%= option %>
       </label>
-    </p>
-  <% }) %>
-<% } %>
+      <% }) %>
+  <% } else { %>
+    <input type="text" name="answer" placeholder="Skriv svaret ditt">
+  <% } %>
 
+   <button type="submit">Send svar</button>
+    
+</form>
 </div>
-
-
-
-
-
-
-
-
 
 <%- include('partials/footer', { footerClass: 'footer' }) %>
