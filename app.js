@@ -34,6 +34,14 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 
+
+app.get('/admin', async (req, res) => {
+  const svar = await Svar.find().populate('bruker');
+  res.render('admin', { svar: svar });
+});
+
+
+
 // remember: henter luke nummeret fra nettaddressen og sender det til luke.ejs.
 //  så bruker man nummeret til å finne riktig spørsmål, slik at luke3 viser spørsmål 3-
 //  basically connecting seed.js. 

@@ -1,0 +1,27 @@
+<%- include('partials/header') %>
+
+<h1>Innsendte svar</h1>
+
+<table>
+  <tr>
+    <th>Luke</th>
+    <th>Bruker</th>
+    <th>Svar</th>
+    <th>Status</th>
+  </tr>
+
+  <% svar.forEach(innsendt => { %>
+    <tr>
+      <td><%= innsendt.dag %></td>
+      <td>
+        <%= innsendt.bruker
+          ? innsendt.bruker.fornavn + ' ' + innsendt.bruker.etternavn
+          : 'Ukjent bruker' %>
+      </td>
+      <td><%= innsendt.svar %></td>
+      <td><%= innsendt.riktig === null ? 'Ikke vurdert' : (innsendt.riktig ? 'Riktig' : 'Galt') %></td>
+    </tr>
+  <% }) %>
+</table>
+
+<%- include('partials/footer', { footerClass: 'footer' }) %>
