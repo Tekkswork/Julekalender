@@ -37,7 +37,20 @@ app.get('/login', (req, res) => {
 
 app.get('/admin', async (req, res) => {
   const svar = await Svar.find().populate('bruker');
-  res.render('admin', { svar: svar });
+  const luker = await Luke.find();
+
+  res.render('admin', { svar: svar, luker: luker});
+});
+
+// vise hva er riktig og galt
+app.post('/admin/svar/:id', async (req, res) => {
+  const riktig = req.body.riktig === 'true';
+
+  await Svar.findByIdAndUpdate(req.params.id, {
+    riktig: riktig
+  });
+
+  res.redirect('/admin');
 });
 
 

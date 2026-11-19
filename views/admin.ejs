@@ -7,11 +7,14 @@
     <th>Luke</th>
     <th>Bruker</th>
     <th>Svar</th>
+    <th>Fasit</th>
     <th>Status</th>
+    <th>Vurder</th>
   </tr>
 
   <% svar.forEach(innsendt => { %>
-    <tr>
+  <% const luke = luker.find(luke => luke.id === innsendt.dag); %>
+  <tr>
       <td><%= innsendt.dag %></td>
       <td>
         <%= innsendt.bruker
@@ -19,7 +22,14 @@
           : 'Ukjent bruker' %>
       </td>
       <td><%= innsendt.svar %></td>
+      <td><%= luke ? luke.correct_answer : 'Fasit mangler' %></td>
       <td><%= innsendt.riktig === null ? 'Ikke vurdert' : (innsendt.riktig ? 'Riktig' : 'Galt') %></td>
+      <td>
+        <form action="/admin/svar/<%= innsendt._id %>" method="POST">
+          <button type="submit" name="riktig" value="true">Riktig</button>
+          <button type="submit" name="riktig" value="false">Galt</button>
+        </form>
+      </td>
     </tr>
   <% }) %>
 </table>
