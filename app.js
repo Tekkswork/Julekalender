@@ -53,6 +53,30 @@ app.post('/admin/svar/:id', async (req, res) => {
   res.redirect('/admin');
 });
 
+// k så her måtte jeg søke litt, hater matte
+
+app.post('/admin/vinner', async (req, res) => {
+  const dag = Number(req.body.dag);
+  const luke = await Luke.findOne({ id: dag });
+
+  if (!luke) {
+    return res.status(404).send('Luka finnes ikke');
+  }
+
+  const svar = await Svar.find({ dag: dag, riktig: true }).populate('bruker');
+  const kvalifiserte = svar.filter(innsendt => innsendt.bruker);
+
+  if (kvalifiserte.length === 0) {
+    return res.send('Ingen riktige svar med kjent bruker på denne luka.');
+  }
+
+  const vinner = kvalifiserte[Math.floor(Math.random() * kvalifiserte.length)];
+  luke.vinner = vinner.bruker._id;
+  await luke.save();
+
+  res.send(`Vinneren er ${vinner.bruker.fornavn}!`);
+});
+
 
 
 // remember: henter luke nummeret fra nettaddressen og sender det til luke.ejs.
