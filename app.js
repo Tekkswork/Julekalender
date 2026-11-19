@@ -75,7 +75,15 @@ if (today.getMonth() !== 11 || today.getDate() < dag) {
   
   const svar = req.body.answer;
 
-  await Svar.create({ dag: dag, svar: svar});
+  const token = req.cookies.jwt;
+
+if (!token) {
+  return res.redirect('/login');
+}
+
+const bruker = jwt.verify(token, process.env.SECRET_JWT);
+
+  await Svar.create({ dag: dag, svar: svar, bruker: bruker.userId});
 
   res.send('Takk for svaret!');
 });

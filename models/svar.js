@@ -6,7 +6,14 @@ const svarSchema = new mongoose.Schema({
   dag: { type: Number, required: true },
   svar: { type: String, required: true },
   riktig: { type: Boolean, default: null },
-  opprettet: { type: Date, default: Date.now }
+  opprettet: { type: Date, default: Date.now },
+
+//   k, så man lagrer id til bruker som svarer
+  bruker: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'User'},
+
 });
+
 
 module.exports = mongoose.model('Svar', svarSchema);
