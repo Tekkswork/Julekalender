@@ -2,6 +2,16 @@
 
 <h1>Innsendte svar</h1>
 
+<form action="/admin/vinner" method="POST">
+  <label for="dag">Velg luke:</label>
+  <select id="dag" dag="dag" required>
+    <% luker.forEach(luke => { %<
+      <option value="<%= luke.id %>">Luke <%= luke.id %></option>
+    <% }) %>
+  </select>
+  <button type="submit">Trekk vinner</button>
+</form>
+
 <table>
   <tr>
     <th>Luke</th>

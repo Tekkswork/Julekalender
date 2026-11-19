@@ -6,7 +6,15 @@ const lukeSchema = new mongoose.Schema({
   question: { type: String, required: true },
   options: [String],
   video_url: String,
-  correct_answer: { type: String, required: true }
+  correct_answer: { type: String, required: true },
+
+
+//   trenger å trekke tilfeldig vinner
+vinner: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'User'
+}
+
 });
 
 module.exports = mongoose.model('Luke', lukeSchema);
