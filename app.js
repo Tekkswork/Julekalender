@@ -93,7 +93,7 @@ if (today.getMonth() !== 11 || today.getDate() < dag) {
   return res.status(403).send('Denne luken er ikke åpen enda');
 }
 
-  const sporsmal = await Luke.findOne({ id: dag });
+  const sporsmal = await Luke.findOne({ id: dag }).populate('vinner');
 
   if (!sporsmal) {
     return res.status(404).send('Luka finnes ikke');
@@ -102,7 +102,8 @@ if (today.getMonth() !== 11 || today.getDate() < dag) {
   res.render('luke', {
     dag: dag,
     question: sporsmal.question,
-    options: sporsmal.options
+    options: sporsmal.options,
+    vinner: sporsmal.vinner
   });
 });
 
@@ -140,20 +141,34 @@ app.post('/login', async (req, res) => {
     console.log("req, rebody", name, surname, email)
 
 
-    if(email.includes("@afk")) {
-        console.log("true")
-        const user = await User.insertOne({fornavn: name, etternavn: surname, epost: email});
-        console.log("user", user)
+    const user = await User.findOne({epost: email});
 
-                const token = jwt.sign({userId:user._id, fornavn: name}, process.env.SECRET_JWT)
-        console.log("token", token);
+    console.log(user);
 
-        res.cookie("jwt", token);
-        res.redirect("/")
-    } else {
-        res.send("du må bruke afk")
+    if(!user) {
+        console.log("why does this run")
+
+        
+        
+        if(email.includes("@afk")) {
+            console.log("true")
+            const user = await User.insertOne({fornavn: name, etternavn: surname, epost: email});
+            console.log("user", user)
+            
+            const token = jwt.sign({userId:user._id, fornavn: name}, process.env.SECRET_JWT)
+            console.log("token", token);
+            
+            res.cookie("jwt", token);
+            res.redirect("/")
+        } else {
+            res.send("du må bruke afk")
+        }
+    }   else {
+          const token = jwt.sign({userId:user._id, fornavn: name}, process.env.SECRET_JWT)
+               res.cookie("jwt", token);
+            res.redirect("/")
     }
-
+        
 
 
 })

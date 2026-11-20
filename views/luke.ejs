@@ -4,6 +4,10 @@
   <h1>Luke <%= dag %></h1>
   <p><%= question %></p>
 
+  <% if (vinner) { %>
+    <p>Vinner: <%= vinner.fornavn %> <%= vinner.etternavn %></p>
+  <% } %>
+
   <!-- Again, som jeg har skjønt- options viser jo svaralternativer og radio er sånn at man
    bare kan velge 1 svar -->
 
