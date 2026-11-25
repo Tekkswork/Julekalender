@@ -21,7 +21,7 @@ mongoose.connect("mongodb://localhost:27017/JULEKALENDER");
 
 app.get('/', (req, res) => {
   const dato = new Date();
-  const dagensLuke = 1;
+  const dagensLuke = 5;
 //   dato.getMonth() === 11 ? dato.getDate() : null;
   const token = req.cookies.jwt;
 
