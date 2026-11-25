@@ -20,14 +20,17 @@ mongoose.connect("mongodb://localhost:27017/JULEKALENDER");
 // prøver å få Hei "navn" melding
 
 app.get('/', (req, res) => {
+  const dato = new Date();
+  const dagensLuke = 1;
+//   dato.getMonth() === 11 ? dato.getDate() : null;
   const token = req.cookies.jwt;
 
   if (!token) {
-    return res.render('index', { navn: null });
+    return res.render('index', { navn: null, dagensLuke: dagensLuke });
   }
 
   const bruker = jwt.verify(token, process.env.SECRET_JWT);
-  res.render('index', { navn: bruker.fornavn });
+  res.render('index', { navn: bruker.fornavn, dagensLuke: dagensLuke });
 });
 
 app.get('/login', (req, res) => {
@@ -174,7 +177,7 @@ app.post('/login', async (req, res) => {
 })
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 app.listen(port, () => {
   console.log(`Server kjører på http://localhost:${port}`);
