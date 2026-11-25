@@ -21,8 +21,7 @@ mongoose.connect("mongodb://localhost:27017/JULEKALENDER");
 
 app.get('/', (req, res) => {
   const dato = new Date();
-  const dagensLuke = 5;
-//   dato.getMonth() === 11 ? dato.getDate() : null;
+  const dagensLuke = dato.getMonth() === 11 ? dato.getDate() : null;
   const token = req.cookies.jwt;
 
   if (!token) {
@@ -106,7 +105,11 @@ if (today.getMonth() !== 11 || today.getDate() < dag) {
     dag: dag,
     question: sporsmal.question,
     options: sporsmal.options,
-    vinner: sporsmal.vinner
+    vinner: sporsmal.vinner,
+
+    // vise videoene
+    type: sporsmal.type,
+    video_url: sporsmal.video_url,
   });
 });
 

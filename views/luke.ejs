@@ -4,6 +4,18 @@
   <h1>Luke <%= dag %></h1>
   <p><%= question %></p>
 
+  <!-- vise videoen -->
+
+  <% if (type === 'video' && video_url) { %>
+  <iframe
+    width="560"
+    height="315"
+    src="<%= video_url.replace('watch?v=', 'embed/') %>"
+    title="Video til luke <%= dag %>"
+    allowfullscreen>
+  </iframe>
+<% } %>
+
   <% if (vinner) { %>
     <p>Vinner: <%= vinner.fornavn %> <%= vinner.etternavn %></p>
   <% } %>
