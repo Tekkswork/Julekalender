@@ -22,6 +22,7 @@ mongoose.connect("mongodb://localhost:27017/JULEKALENDER");
 app.get('/', (req, res) => {
   const dato = new Date();
   const dagensLuke = dato.getMonth() === 11 ? dato.getDate() : null;
+//   const dagens luke 1 for testing
   const token = req.cookies.jwt;
 
   if (!token) {
@@ -44,8 +45,58 @@ app.get('/logout', (req, res) => {
 app.get('/admin', async (req, res) => {
   const svar = await Svar.find().populate('bruker');
   const luker = await Luke.find();
+  const brukere = await User.find().sort({ etternavn: 1, fornavn: 1 });
 
-  res.render('admin', { svar: svar, luker: luker});
+  res.render('admin', { svar: svar, luker: luker, brukere: brukere });
+});
+
+app.post('/admin/luke/:dag', async (req, res) => {
+  const dag = Number(req.params.dag);
+  const { type, question, options, video_url, correct_answer } = req.body;
+
+  if (!Number.isInteger(dag) || dag < 1 || dag > 24) {
+    return res.status(400).send('Ugyldig luke.');
+  }
+
+  if (!['open', 'multiple_choice', 'video'].includes(type)) {
+    return res.status(400).send('Ugyldig spørsmålstype.');
+  }
+
+  const svaralternativer = type === 'multiple_choice'
+    ? String(options || '').split('\n').map(option => option.trim()).filter(Boolean)
+    : [];
+  const fasit = String(correct_answer || '').trim();
+
+  if (!question || !fasit) {
+    return res.status(400).send('Spørsmål og fasit må fylles ut.');
+  }
+
+  if (type === 'multiple_choice' &&
+      (svaralternativer.length === 0 || !svaralternativer.includes(fasit))) {
+    return res.status(400).send('Flervalg må ha alternativer, og fasiten må være ett av dem.');
+  }
+
+  if (type === 'video' && !String(video_url || '').trim()) {
+    return res.status(400).send('Videoluker må ha en video-URL.');
+  }
+
+  const luke = await Luke.findOneAndUpdate(
+    { id: dag },
+    {
+      type: type,
+      question: question.trim(),
+      options: svaralternativer,
+      video_url: String(video_url || '').trim(),
+      correct_answer: fasit
+    },
+    { new: true, runValidators: true }
+  );
+
+  if (!luke) {
+    return res.status(404).send('Luka finnes ikke.');
+  }
+
+  res.redirect('/admin');
 });
 
 // vise hva er riktig og galt
@@ -66,21 +117,21 @@ app.post('/admin/vinner', async (req, res) => {
   const luke = await Luke.findOne({ id: dag });
 
   if (!luke) {
-    return res.status(404).send('Luka finnes ikke');
+    return res.status(404).json({ message: 'Luka finnes ikke' });
   }
 
   const svar = await Svar.find({ dag: dag, riktig: true }).populate('bruker');
   const kvalifiserte = svar.filter(innsendt => innsendt.bruker);
 
   if (kvalifiserte.length === 0) {
-    return res.send('Ingen riktige svar med kjent bruker på denne luka.');
+    return res.status(400).json({ message: 'Ingen riktige svar med kjent bruker på denne luka.' });
   }
 
   const vinner = kvalifiserte[Math.floor(Math.random() * kvalifiserte.length)];
   luke.vinner = vinner.bruker._id;
   await luke.save();
 
-  res.send(`Vinneren er ${vinner.bruker.fornavn}!`);
+  res.json({ message: `Vinneren er ${vinner.bruker.fornavn} ${vinner.bruker.etternavn}!` });
 });
 
 
@@ -91,7 +142,7 @@ app.post('/admin/vinner', async (req, res) => {
 app.get('/luke/:dag', async (req, res) => {
   const dag = Number(req.params.dag);
 
-//   ikke åpne luker
+//   settes på 0 for desember- 2026-12-24 for testing
 
   const today = new Date('2026-12-24');
 

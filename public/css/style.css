@@ -415,3 +415,121 @@ body:has(.luke-boks) > main.container {
 body:has(.luke-boks) .luke-boks {
   margin: 0 auto;
 }
+
+.admin-side {
+  width: min(1200px, calc(100% - 2rem));
+  margin: 20px auto;
+  color: #f8efe4;
+}
+
+.admin-side > form,
+.admin-side > table,
+.admin-side > .admin-luke {
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background: rgba(42, 20, 20, 0.82);
+  border: 1px solid rgba(245, 214, 138, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 0 18px rgba(245, 214, 138, 0.12);
+}
+
+.admin-side table {
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.admin-side th,
+.admin-side td {
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(248, 239, 228, 0.16);
+  vertical-align: top;
+}
+
+.admin-side th {
+  color: #f5d68a;
+}
+
+.admin-side h2 {
+  color: #f5d68a;
+}
+
+.admin-luke summary {
+  color: #f5d68a;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.admin-luke-form {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.admin-luke-form label {
+  color: #f8efe4;
+}
+
+.admin-luke-form input,
+.admin-luke-form textarea,
+.admin-luke-form select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid rgba(245, 214, 138, 0.45);
+  border-radius: 8px;
+  background: rgba(20, 16, 24, 0.72);
+  color: #f8efe4;
+  font: inherit;
+}
+
+.admin-luke-form textarea {
+  resize: vertical;
+}
+
+.admin-side button,
+.admin-side select {
+  padding: 0.55rem 0.85rem;
+  border: 1px solid #f5d68a;
+  border-radius: 8px;
+  background: #441819;
+  color: #f8efe4;
+}
+
+.admin-side button {
+  cursor: pointer;
+}
+
+.admin-side button:hover {
+  box-shadow: 0 0 12px rgba(245, 214, 138, 0.35);
+}
+
+.trekk-vinner-form {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.vinner-melding {
+  color: #f5d68a;
+}
+
+.vinner-melding.vinner-feil {
+  color: #ffaaa3;
+}
+
+@media (max-width: 700px) {
+  .admin-side {
+    overflow-x: auto;
+  }
+
+  .admin-side table {
+    min-width: 700px;
+  }
+}
+
+body:has(.admin-side) {
+  overflow-y: auto;
+}

@@ -1,8 +1,9 @@
 <%- include('partials/header') %>
 
+<div class="admin-side">
 <h1>Innsendte svar</h1>
 
-<form action="/admin/vinner" method="POST">
+<form action="/admin/vinner" method="POST" class="trekk-vinner-form">
   <label for="dag">Velg luke:</label>
   <select id="dag" name="dag" required>
     <% luker.forEach(luke => { %>
@@ -10,7 +11,35 @@
     <% }) %>
   </select>
   <button type="submit">Trekk vinner</button>
+  <span class="vinner-melding" aria-live="polite"></span>
 </form>
+
+<script>
+  document.querySelector('.trekk-vinner-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const melding = form.querySelector('.vinner-melding');
+    const knapp = form.querySelector('button[type="submit"]');
+    knapp.disabled = true;
+    melding.textContent = '';
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(form))
+      });
+      const result = await response.json();
+      melding.textContent = result.message;
+      melding.classList.toggle('vinner-feil', !response.ok);
+    } catch (error) {
+      melding.textContent = 'Kunne ikke trekke vinner. Prøv igjen.';
+      melding.classList.add('vinner-feil');
+    } finally {
+      knapp.disabled = false;
+    }
+  });
+</script>
 
 <table>
   <tr>
@@ -44,4 +73,52 @@
   <% }) %>
 </table>
 
-<%- include('partials/footer', { footerClass: 'footer' }) %>
+<h2>Deltakere (<%= brukere.length %>)</h2>
+<table>
+  <tr>
+    <th>Fornavn</th>
+    <th>Etternavn</th>
+    <th>E-post</th>
+    <th>Rolle</th>
+  </tr>
+  <% brukere.forEach(bruker => { %>
+    <tr>
+      <td><%= bruker.fornavn || '' %></td>
+      <td><%= bruker.etternavn || '' %></td>
+      <td><%= bruker.epost %></td>
+      <td><%= bruker.rolle %></td>
+    </tr>
+  <% }) %>
+</table>
+
+<h2>Rediger spørsmål og innhold</h2>
+<% luker.forEach(luke => { %>
+  <details class="admin-luke">
+    <summary>Luke <%= luke.id %> — <%= luke.question %></summary>
+    <form action="/admin/luke/<%= luke.id %>" method="POST" class="admin-luke-form">
+      <label for="type-<%= luke.id %>">Type</label>
+      <select id="type-<%= luke.id %>" name="type" required>
+        <option value="open" <%= luke.type === 'open' ? 'selected' : '' %>>Fritekst</option>
+        <option value="multiple_choice" <%= luke.type === 'multiple_choice' ? 'selected' : '' %>>Flervalg</option>
+        <option value="video" <%= luke.type === 'video' ? 'selected' : '' %>>Video</option>
+      </select>
+
+      <label for="question-<%= luke.id %>">Spørsmål</label>
+      <textarea id="question-<%= luke.id %>" name="question" rows="2" required><%= luke.question %></textarea>
+
+      <label for="options-<%= luke.id %>">Svaralternativer (ett per linje, for flervalg)</label>
+      <textarea id="options-<%= luke.id %>" name="options" rows="4"><%= (luke.options || []).join('\n') %></textarea>
+
+      <label for="video-<%= luke.id %>">Video-URL (for videoluke)</label>
+      <input id="video-<%= luke.id %>" name="video_url" type="url" value="<%= luke.video_url || '' %>">
+
+      <label for="answer-<%= luke.id %>">Fasit</label>
+      <input id="answer-<%= luke.id %>" name="correct_answer" value="<%= luke.correct_answer %>" required>
+
+      <button type="submit">Lagre luke <%= luke.id %></button>
+    </form>
+  </details>
+<% }) %>
+
+</div>
+<%- include('partials/footer', { footerClass: 'footer', hideFooter: true }) %>
