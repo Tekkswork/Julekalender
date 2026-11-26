@@ -96,7 +96,7 @@ app.get('/luke/:dag', async (req, res) => {
   const today = new Date('2026-12-24');
 
 if (today.getMonth() !== 11 || today.getDate() < dag) {
-  return res.status(403).send('Denne luken er ikke åpen enda');
+  return res.status(403).json({ message: 'Denne luken er ikke åpen enda' });
 }
 
   const sporsmal = await Luke.findOne({ id: dag }).populate('vinner');
@@ -134,14 +134,14 @@ if (today.getMonth() !== 11 || today.getDate() < dag) {
   const token = req.cookies.jwt;
 
 if (!token) {
-  return res.redirect('/login');
+  return res.status(401).json({ message: 'Du må logge inn for å sende svar.' });
 }
 
 const bruker = jwt.verify(token, process.env.SECRET_JWT);
 
   await Svar.create({ dag: dag, svar: svar, bruker: bruker.userId});
 
-  res.send('Takk for svaret!');
+  res.json({ message: 'Takk for svaret!' });
 });
 
 

@@ -1,8 +1,10 @@
 </main>
+<% if (typeof hideFooter === 'undefined' || !hideFooter) { %>
 <footer class="<%= footerClass || 'footer' %>">
     <!-- om det er noen problemer for elevene så kan du fikse det Monica ;) jk -->
   Problemer? Kontakt IT-ansvarlig:
  <span class="footer-epost">monicastef@afk.no</span>
 </footer>
+<% } %>
 </body>
 </html>

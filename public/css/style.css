@@ -264,3 +264,154 @@ body::after {
     background-position: 0 200px;
   }
 }
+
+
+/* Boksen på lukesidene */
+.luke-boks {
+    box-sizing: border-box;
+    width: min(700px, calc(100% - 2rem));
+    margin: 100px auto 20px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: rgba(42, 20, 20, 0.78);
+    border: 1px solid rgba(245, 214, 138, 0.3);
+    border-radius: 20px;
+    backdrop-filter: blur(6px);
+    min-height: 0;
+    box-shadow: 0 0 24px rgba(245, 214, 138, 0.22);
+
+
+}
+
+.luke-boks h1 {
+  color: #f5d68a;
+  text-shadow: 0 0 12px rgba(245, 214, 138, 0.55);
+  text-align: center;
+  margin: 0 auto;
+  padding: 0;
+  transform: none;
+  background: none;
+}
+
+.luke-boks h1 + p,
+.luke-boks form label {
+  color: #f8efe4;
+}
+
+.luke-boks > iframe {
+  width: 100%;
+  max-width: 450px;
+  align-self: flex-start;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: 1px solid rgba(245, 214, 138, 0.35);
+  border-radius: 14px;
+}
+
+.luke-boks form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.luke-boks form input[type="text"] {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 52px;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(245, 214, 138, 0.55);
+  border-radius: 12px;
+  background: rgba(20, 16, 24, 0.72);
+  color: #f8efe4;
+  font: inherit;
+}
+
+.luke-boks form input[type="text"]::placeholder {
+  color: rgba(248, 239, 228, 0.65);
+}
+
+.luke-boks form input[type="text"]:focus {
+  outline: 2px solid rgba(245, 214, 138, 0.75);
+  box-shadow: 0 0 14px rgba(245, 214, 138, 0.25);
+}
+
+.luke-boks form label {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(245, 214, 138, 0.25);
+  border-radius: 12px;
+  background: rgba(20, 16, 24, 0.45);
+  cursor: pointer;
+}
+
+.luke-boks form input[type="radio"] {
+  accent-color: #f5d68a;
+}
+
+.luke-boks form button {
+  position: relative;
+  align-self: flex-start;
+  padding: 0.8rem 1.4rem;
+  border: 1px solid #f5d68a;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #440e10, #4e0d0d);
+  color: #f8efe4;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.luke-boks form button:disabled {
+  cursor: wait;
+}
+
+.luke-boks form.svar-sendt button {
+  animation: svar-glod 1.4s ease-in-out infinite;
+}
+
+.luke-boks form .svarmelding {
+  margin: 0;
+  color: #f5d68a;
+}
+
+.luke-boks form .svarmelding.svar-feil {
+  color: #ffaaa3;
+}
+
+@keyframes svar-glod {
+  0%, 100% {
+    box-shadow: 0 0 4px rgba(245, 214, 138, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(245, 214, 138, 0.85);
+  }
+}
+
+.luke-boks form button:hover,
+.luke-boks form button:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 0 16px rgba(245, 214, 138, 0.35);
+}
+
+body:has(.luke-boks) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+body:has(.luke-boks) > main.container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body:has(.luke-boks) .luke-boks {
+  margin: 0 auto;
+}

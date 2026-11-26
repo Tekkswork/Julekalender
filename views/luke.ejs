@@ -23,8 +23,8 @@
   <!-- Again, som jeg har skjønt- options viser jo svaralternativer og radio er sånn at man
    bare kan velge 1 svar -->
 
-   <form action="/luke/<%= dag %>" method="POST">
-  <% if (options) { %>
+   <form action="/luke/<%= dag %>" method="POST" class="svarskjema">
+  <% if (options && options.length > 0) { %>
   <% options.forEach(option => { %>
       <label>
         <input type="radio" name="answer" value="<%= option %>">
@@ -36,8 +36,46 @@
   <% } %>
 
    <button type="submit">Send svar</button>
+   <p class="svarmelding" aria-live="polite"></p>
     
 </form>
 </div>
 
-<%- include('partials/footer', { footerClass: 'footer' }) %>
+<script>
+  document.querySelector('.svarskjema').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const knapp = form.querySelector('button[type="submit"]');
+    const melding = form.querySelector('.svarmelding');
+
+    knapp.disabled = true;
+    melding.textContent = 'Sender svaret...';
+    melding.classList.remove('svar-feil');
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(form))
+      });
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Kunne ikke sende svaret.');
+      }
+
+      knapp.textContent = 'Svar sendt!';
+      form.classList.add('svar-sendt');
+      form.querySelectorAll('input').forEach((input) => {
+        input.disabled = true;
+      });
+      melding.textContent = '';
+    } catch (error) {
+      melding.textContent = error.message;
+      melding.classList.add('svar-feil');
+      knapp.disabled = false;
+    }
+  });
+</script>
+
+<%- include('partials/footer', { footerClass: 'footer', hideFooter: true }) %>
