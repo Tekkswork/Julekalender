@@ -71,6 +71,16 @@ h1 {
     text-shadow: 0 0 4px #f5d68a, 0 0 12px rgba(245, 214, 138, 0.6), 0 0 24px rgba(245, 214, 138, 0.4);
 }
 
+.hilsen {
+    position: fixed;
+    top: 20px;
+    left: 60px;
+    margin: 0;
+    color: #f5d68a;
+    font-size: 18px;
+    text-shadow: 0 0 4px #f5d68a, 0 0 12px rgba(245, 214, 138, 0.6), 0 0 24px rgba(245, 214, 138, 0.4);
+}
+
 .footer {
     margin-top: 15px;
   text-align: center;

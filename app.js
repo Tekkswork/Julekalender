@@ -36,6 +36,10 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 
+app.get('/logout', (req, res) => {
+  res.clearCookie('jwt');
+  res.redirect('/login');
+});
 
 app.get('/admin', async (req, res) => {
   const svar = await Svar.find().populate('bruker');
